@@ -1,13 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-// 全局样式
+// 导入antd的全局样式
+import 'antd/dist/antd.css'
+// 自己的全局样式
 import './index.css'
-// App 根组件
 import App from './App'
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-)
+ReactDOM.render(<App />, document.getElementById('root'))
