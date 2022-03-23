@@ -7,6 +7,17 @@ yarn start
 
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
+添加依赖包
+
+```
+yarn add antd
+yarn add axios
+yarn add history
+yarn add node-sass
+yarn add react-quill
+yarn add react-router-dom
+```
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
