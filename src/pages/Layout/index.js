@@ -8,15 +8,21 @@ import {
   DiffOutlined,
   EditOutlined,
 } from '@ant-design/icons'
-import Home from 'pages/Home'
-import ArticleList from 'pages/ArticleList'
-import ArticlePublish from 'pages/ArticlePublish'
 import { removeToken } from 'utils/storage'
 import { getUserProfile } from 'api/user'
+
+// import Home from 'pages/Home'
+// import ArticleList from 'pages/ArticleList'
+// import ArticlePublish from 'pages/ArticlePublish'
+
+const Home = React.lazy(() => import('pages/Home'))
+const ArticleList = React.lazy(() => import('pages/ArticleList'))
+const ArticlePublish = React.lazy(() => import('pages/ArticlePublish'))
 const { Header, Content, Sider } = Layout
 export default class LayoutComponent extends Component {
   state = {
     profile: {},
+    selectedKey: this.props.location.pathname,
   }
   render() {
     return (
@@ -40,10 +46,12 @@ export default class LayoutComponent extends Component {
           </Header>
           <Layout>
             <Sider width={200}>
+              {/* 如果默认高亮不会变，使用defaultSelectedKeys */}
+              {/* 如果默认高亮会变化，需要使用selectedKeys */}
               <Menu
                 theme="dark"
                 mode="inline"
-                defaultSelectedKeys={[this.props.location.pathname]}
+                selectedKeys={[this.state.selectedKey]}
                 style={{ height: '100%', borderRight: 0 }}
               >
                 <Menu.Item key="/home" icon={<HomeOutlined />}>
@@ -57,14 +65,23 @@ export default class LayoutComponent extends Component {
                 </Menu.Item>
               </Menu>
             </Sider>
-            <Layout style={{ padding: '24px' }}>
+            <Layout style={{ padding: '24px', overflow: 'auto' }}>
               <Content className="site-layout-background">
                 <Switch>
                   <Route exact path="/home" component={Home}></Route>
                   <Route path="/home/list" component={ArticleList}></Route>
+                  {/* 新增 */}
                   <Route
+                    exact
                     path="/home/publish"
                     component={ArticlePublish}
+                    key="add"
+                  ></Route>
+                  {/* 修改的路由 */}
+                  <Route
+                    path="/home/publish/:id"
+                    component={ArticlePublish}
+                    key="edit"
                   ></Route>
                 </Switch>
               </Content>
@@ -75,9 +92,25 @@ export default class LayoutComponent extends Component {
     )
   }
 
+  // 组件更新完成的钩子函数，，，路由变化了，组件也是会重新渲染
+  // prevProps： 上一次的props
+  componentDidUpdate(prevProps) {
+    // 判断是否是url地址发生了变化，如果是，才更新
+    let pathname = this.props.location.pathname
+    if (this.props.location.pathname !== prevProps.location.pathname) {
+      // 考虑修改文章的高亮问题
+      if (pathname.startsWith('/home/publish')) {
+        pathname = '/home/publish'
+      }
+      this.setState({
+        selectedKey: pathname,
+      })
+    }
+  }
+
   async componentDidMount() {
     const res = await getUserProfile()
-    console.log(res)
+    // console.log(res)
     this.setState({
       profile: res.data,
     })

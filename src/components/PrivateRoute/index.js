@@ -4,13 +4,13 @@ import { hasToken } from 'utils/storage'
 
 export default class PrivateRoute extends Component {
   render() {
-    console.log(this.props)
+    // console.log(this.props)
     const { component: Component, ...rest } = this.props
     return (
       <Route
         {...rest}
         render={(routeProps) => {
-          console.log(routeProps, 'routeProps')
+          // console.log(routeProps, 'routeProps')
           // 判断用户是否登录，判断是否token
           if (hasToken()) {
             return <Component {...routeProps}></Component>
