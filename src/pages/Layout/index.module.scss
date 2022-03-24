@@ -1,0 +1,78 @@
+// .aa {
+//   color: red;
+
+//   :global {
+//     .bb {
+//       color: pink;
+//     }
+
+//     .userList {
+//       color: red;
+//     }
+//     .iconfont {
+//       color: red;
+//     }
+//     .ant-pagination-item-active {
+//       border-color: red;
+//       a {
+//         color: red;
+//       }
+//     }
+//   }
+
+//   // /* 如果被:global包裹的类名，代表全局类名，就不会被css-modules处理 */
+//   // :global(.iconfont) {
+//   //   color: red;
+//   // }
+
+//   // /* 和vue中scoped加了之后，无法修改子组件的样式 */
+//   // :global(.ant-pagination-item-active) {
+//   //   border-color: red;
+//   // }
+
+//   // :global(.ant-pagination-item-active) a {
+//   //   color: red;
+//   // }
+// }
+
+.layout {
+  // layout的样式
+  height: 100vh;
+  :global {
+    .ant-layout {
+      height: 100%;
+    }
+    .ant-layout-header {
+      padding: 0;
+      position: relative;
+    }
+    // 子元素的样式
+    .logo {
+      float: left;
+      width: 200px;
+      height: 60px;
+      margin: 2px 0;
+      background: url(~assets/logo.png);
+      background-size: cover;
+    }
+    .profile {
+      color: #fff;
+      font-weight: 700;
+      position: absolute;
+      right: 20px;
+      span + span {
+        margin-left: 20px;
+        cursor: pointer;
+      }
+    }
+
+    .ant-row-rtl .logo {
+      float: right;
+      margin: 16px 0 16px 24px;
+    }
+
+    .site-layout-background {
+      background: #fff;
+    }
+  }
+}
